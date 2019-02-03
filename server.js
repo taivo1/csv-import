@@ -1,4 +1,5 @@
 const express = require('express'),
+      models  = require('./backend/models'),
       app     = express();
 
 /**
@@ -27,8 +28,20 @@ const express = require('express'),
  * Rest of the server
  */
 
-app.get('/', (req, res) => res.sendFile(__dirname + '/index.html'));
+(async function() {
+    try {
+        // await new Promise(resolve => setTimeout(resolve, 20000));
+        await models.sequelize.sync();
 
-const port = process.env.PORT || 8080;
+        const port = process.env.SERVER_PORT || 8080;
 
-app.listen(port, () => console.log(`App listening on port ${port}!`));
+        app.use('/', require('./backend/routes.js'));
+
+        app.listen(port, () => console.log(`App listening on port ${port}!`));
+
+    } catch (err) {
+        console.log(err);
+        process.exit(1);
+    }
+})();
+
