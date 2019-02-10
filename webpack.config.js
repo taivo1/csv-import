@@ -7,7 +7,7 @@ const path                 = require('path'),
 // call dotenv and it will return an Object with a parsed key
 const env = dotenv.config().parsed;
 
-// reduce it to a nice object, the same as before
+// reduce it to a nice object, the same as before but keep only react app variables for frontend
 const envKeys = Object.keys(env).reduce((prev, next) => {
     if (next.substr(0, 9) === 'REACT_APP') {
         prev[`process.env.${next}`] = JSON.stringify(env[next]);
@@ -64,10 +64,6 @@ module.exports = {
         ]
     },
     plugins: [
-        // new MiniCssExtractPlugin({
-        //     filename: 'styles.css',
-        //     chunkFilename: 'styles.css'
-        // }),
         new webpack.DefinePlugin(envKeys),
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
