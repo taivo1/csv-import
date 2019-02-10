@@ -6,7 +6,7 @@ import 'filepond/dist/filepond.css';
 registerPlugin(FilePondPluginFileValidateType);
 
 
-class FileUpload extends Component {
+class FilepondUpload extends Component {
 
     constructor(props) {
         super(props);
@@ -32,7 +32,6 @@ class FileUpload extends Component {
         let lastPos = 0;
         let loaded = 0.5;
         request.onreadystatechange = function() {
-            console.log('.');
             if (request.readyState === 3) {
                 let data = request.responseText.substring(lastPos);
                 lastPos = request.responseText.length;
@@ -85,6 +84,9 @@ class FileUpload extends Component {
                             fetch:   false
                         }
                     }
+                    ref={ref => this.pond = ref}
+                    name="csvFile"
+                    id="uploadField"
                     allowRevert={false}
                     allowReplace={false}
                     acceptedFileTypes={['text/csv']}
@@ -94,4 +96,4 @@ class FileUpload extends Component {
     };
 }
 
-export default FileUpload;
+export default FilepondUpload;

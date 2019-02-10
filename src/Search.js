@@ -1,6 +1,29 @@
 import React, {Component} from 'react';
+import { components } from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
 import Item from './Item';
+
+
+
+const MenuList = (props) => {
+    return (
+        <components.MenuList {...props}>
+            {React.Children.map(props.children, (child, i) => {
+                return React.cloneElement(child, {
+                    resultId: 'result-' + (i + 1),
+                });
+            })}
+        </components.MenuList>
+    );
+};
+
+const Option = (props) => {
+    return (
+        <div id={props.resultId}>
+            <components.Option {...props} />
+        </div>
+    );
+};
 
 
 class Search extends Component {
@@ -22,7 +45,6 @@ class Search extends Component {
         })
         .then(response => response.json())
         .then(function (data) {
-            console.log('Request succeeded with JSON response', data);
             callback(data.map((u) => {return {value: u, label: u.name}; }));
         })
         .catch(function (error) {
@@ -35,20 +57,22 @@ class Search extends Component {
     }
 
     handleInputChange (newValue) {
-        const inputValue = newValue.replace(/\W/g, '');
-        this.setState({inputValue});
-        return inputValue;
-    };
+        // const inputValue = newValue.replace(/\W/g, '');
+        this.setState({newValue});
+        return newValue;
+    }
 
     render() {
         return (
             <div>
                 <AsyncSelect
+                    components={{ MenuList, Option }}
                     cacheOptions
                     loadOptions={this.loadOptions}
                     defaultOptions
                     onInputChange={this.handleInputChange}
                     onChange={this.handleChange}
+                    inputId="searchField"
                 />
                 <Item {...this.state.selectedItem}/>
             </div>

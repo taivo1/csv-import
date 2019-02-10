@@ -51,16 +51,16 @@ router.get('/', (req, res, next) => res.sendFile(__dirname + '/../index.html'));
 /**
  * For importing the csv file with data
  */
-router.post('/import', upload.single('filepond'), AsyncMiddleware(async (req, res, next) => {
+router.post('/import', upload.single('csvFile'), AsyncMiddleware(async (req, res, next) => {
 
     let processed = 0;
-    let progress = 0.5;
+    let progress = 0.3;
 
     let numLines = await countFileLines(req.file.path);
 
     let updateProgress = (batchSize) => {
         processed += batchSize;
-        let progressUpdate = Number((0.5 + (processed / numLines / 2)).toFixed(3));
+        let progressUpdate = Number((0.3 + (processed / numLines / 3 * 2)).toFixed(3));
 
         if (progressUpdate > progress) {
             progress = progressUpdate;
@@ -172,8 +172,10 @@ router.post('/import', upload.single('filepond'), AsyncMiddleware(async (req, re
         console.log(results);
     });
     databaseStream.on('end', () => {
-        res.write('1.00');
-        res.end('ok');
+        fs.unlink(req.file.path, () => {
+            res.write('1.00');
+            res.end('ok');
+        });
     });
 }));
 
@@ -189,8 +191,8 @@ router.post('/search', jsonParser, AsyncMiddleware(async (req, res, next) => {
     if (!keyword || typeof keyword !== 'string') {
         users = await models.User.findAll({limit: limit});
     } else {
-        users = await models.sequelize.query('SELECT * FROM user WHERE name like ? LIMIT ?', {
-            replacements: ['%' + keyword + '%', limit],
+        users = await models.sequelize.query('SELECT * FROM user WHERE name like ? OR team like ? OR age = ? OR address like ? LIMIT ?', {
+            replacements: ['%' + keyword + '%','%' + keyword + '%', keyword, '%' + keyword + '%', limit],
             type:         models.sequelize.QueryTypes.SELECT,
             model:        models.User,
             mapToModel:   true

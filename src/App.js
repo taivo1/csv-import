@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import FileUpload from './FileUpload';
+import FilepondUpload from './FilepondUpload';
+import CustomFileUpload from './CustomFileUpload';
 import Search from './Search';
 
 class App extends Component {
@@ -7,8 +8,9 @@ class App extends Component {
         return (
             <div>
                 <h1>Pipedrive FS Task !!!</h1>
-                <FileUpload server={ '//' + process.env.REACT_APP_SERVER_HOST + ':' + process.env.REACT_APP_SERVER_PORT + '/import' }/>
-                <Search/>
+                {/*<FilepondUpload server={ '//' + process.env.REACT_APP_SERVER_HOST + ':' + process.env.REACT_APP_SERVER_PORT + '/import' }/>*/}
+                <CustomFileUpload server={ '//' + process.env.REACT_APP_SERVER_HOST + ':' + process.env.REACT_APP_SERVER_PORT + '/import' } />
+                <Search />
             </div>
         );
     }
