@@ -4,7 +4,10 @@ services:
 
   # we named our main service 'web' which runs the nodejs app
   web:
-    image: "node:10"
+    # build a custom image
+    build:
+      context: .
+      dockerfile: .docker/node.dockerfile
     user: "node"
     env_file:
     - .env
