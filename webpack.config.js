@@ -1,7 +1,7 @@
-const path              = require('path'),
-      webpack           = require('webpack'),
-      HtmlWebpackPlugin = require('html-webpack-plugin'),
-      dotenv            = require('dotenv');
+const path                 = require('path'),
+      webpack              = require('webpack'),
+      HtmlWebpackPlugin    = require('html-webpack-plugin'),
+      dotenv               = require('dotenv');
 
 
 // call dotenv and it will return an Object with a parsed key
@@ -58,17 +58,16 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    {
-                        loader: 'style-loader'
-                    },
-                    {
-                        loader: 'css-loader'
-                    }
-                ]
+                    'style-loader', 'css-loader', 'postcss-loader',
+                ],
             },
         ]
     },
     plugins: [
+        // new MiniCssExtractPlugin({
+        //     filename: 'styles.css',
+        //     chunkFilename: 'styles.css'
+        // }),
         new webpack.DefinePlugin(envKeys),
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({

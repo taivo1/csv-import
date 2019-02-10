@@ -64,7 +64,7 @@ class Search extends Component {
 
     render() {
         return (
-            <div>
+            <div className="">
                 <AsyncSelect
                     components={{ MenuList, Option }}
                     cacheOptions

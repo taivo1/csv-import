@@ -74,6 +74,7 @@ class CustomFileUpload extends Component {
         this.fileUpload(this.state.file).then(() => {
             console.log('file uploaded');
         });
+        return false;
     }
 
     render() {
@@ -83,12 +84,12 @@ class CustomFileUpload extends Component {
         }
 
         return (
-            <div id="fileUpload">
-                <form method="post" action={this.props.server} onSubmit={this.onSubmit}>
-                    <input type="file" id="uploadField" name="csvFile" onChange={this.onChange}/>
-                    <button type="submit" id="uploadButton">Upload</button>
+            <div id="fileUpload" className="py2">
+                <form method="post" action={this.props.server} onSubmit={this.onSubmit} className="pb1">
+                    <input type="file" id="uploadField" className="field" name="csvFile" onChange={this.onChange}/>
+                    <button type="submit" className="btn btn-primary" id="uploadButton" disabled={!this.state.file}>Upload</button>
                 </form>
-                <Progress percent={(this.state.progress * 100)} status="active" />
+                <Progress percent={(this.state.progress * 100).toFixed(0)} status="active" />
             </div>
         );
     };

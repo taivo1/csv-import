@@ -1,0 +1,20 @@
+@import 'ace-css';
+
+:root {
+    --light-gray: #fafafa;
+    --black: #222;
+}
+
+* {
+    margin: 0px;
+    font-family: "Helvetica Neue", sans-serif;
+}
+
+body {
+    background-color: var(--light-gray);
+}
+
+.container {
+    max-width: 1024px;
+    margin: 0 auto;
+}
