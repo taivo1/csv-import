@@ -1,6 +1,6 @@
-const express = require('express'),
-      models  = require('./backend/models'),
-      app     = express();
+const express    = require('express'),
+      models     = require('./backend/models'),
+      app        = express();
 
 /**
  * For webpack
@@ -34,7 +34,7 @@ const express = require('express'),
         await models.sequelize.sync();
 
         const port = process.env.SERVER_PORT || 8080;
-
+        // change file objects to stream.Readable
         app.use('/', require('./backend/routes.js'));
 
         app.listen(port, () => console.log(`App listening on port ${port}!`));

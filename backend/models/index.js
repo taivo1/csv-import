@@ -37,4 +37,4 @@ Object.keys(db).forEach(function (modelName) {
     }
 });
 
-module.exports = { sequelize, Sequelize };
+module.exports = { sequelize, Sequelize, ...db };
