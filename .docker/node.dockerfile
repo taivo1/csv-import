@@ -1,15 +1,14 @@
 FROM node:10
 
-# use changes to package.json to force Docker not to use the cache
-# when we change our application's nodejs dependencies:
-COPY package.json /tmp/package.json
-RUN cd /tmp && npm install
-RUN mkdir -p /home/node/app && cp -a /tmp/node_modules /home/node/app/
-
-# From here we load our application's code in, therefore the previous docker
-# "layer" thats been cached will be used if possible
 WORKDIR /home/node/app
-COPY . /home/node/app
+
+# Install deps
+COPY ./package* ./
+RUN npm install && \
+    npm cache clean --force
+
+COPY . .
 
 EXPOSE 8080
+# Start the app
 CMD ["npm" "start"]
